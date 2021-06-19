@@ -36,9 +36,9 @@ const clearBoard = () => {
   squareEls.forEach(square => {
     square.innerText = ""
   })
-  console.log("clearing board")
+  // console.log("clearing board")
   board = [...boardTemplate]
-  console.log(board)
+  // console.log(board)
 }
 
 // gets the id of the div clicked and references the board to see if that div has an owner yet.
@@ -80,7 +80,7 @@ const endMatch = (isTie) => {
   squareEls.forEach(square => {
     square.removeEventListener("click", clickHandler)
   })
-  console.log(pastWinners)
+  // console.log(pastWinners)
   playerTurn = players[pastWinners.length % 2]
   showStart(true)
 }
@@ -124,41 +124,3 @@ const resetBoard = () => {
 /* Game Function Calls */
 
 resetBoard()
-
-
-
-
-
-// /* Game Class */
-
-// class Game {
-//   constructor(){
-//     this.createBoard()
-
-//   }
-//   createBoard() {
-//     squareEls.forEach(square => {
-//       square.innerText = ""
-//       square.addEventListener("click", this.clickHandler)
-//     });
-//   }
-//   clickHandler(e) {
-//     console.log(e)
-//     const id = parseInt(e.target.id)
-//     if (!board[id]) {
-//       board[id] = playerTurn.symbol
-//       e.target.innerText = playerTurn.symbol
-//       this.testForWin()
-//       playerTurn = playerTurn === players[0] ? players[1] : players[0]
-//     }
-//     e.target.removeEventListener('click', this.clickHandler);
-//   }
-//   testForWin() {
-  
-//   }
-//   winHandler() {
-//     messageEl.innerText = `${this.playerTurn.name} won!`
-//   }
-// }
-                
-// const currentGame = new Game();
