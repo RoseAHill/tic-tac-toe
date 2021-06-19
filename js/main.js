@@ -24,7 +24,7 @@ const boardTemplate = [null, null, null, null, null, null, null, null, null]
 
 /* Game Variables */
 
-let board = boardTemplate
+let board = [...boardTemplate]
 let playerTurn = players[0]
 
 let pastWinners = []
@@ -36,6 +36,9 @@ const clearBoard = () => {
   squareEls.forEach(square => {
     square.innerText = ""
   })
+  console.log("clearing board")
+  board = [...boardTemplate]
+  console.log(board)
 }
 
 // gets the id of the div clicked and references the board to see if that div has an owner yet.
@@ -78,6 +81,7 @@ const endMatch = (isTie) => {
     square.removeEventListener("click", clickHandler)
   })
   console.log(pastWinners)
+  playerTurn = players[pastWinners.length % 2]
   showStart(true)
 }
 
@@ -87,7 +91,6 @@ const init = () => {
   squareEls.forEach(square => {
     square.addEventListener("click", clickHandler)
   })
-  showStart(false)
 }
 
 // Checks through the win scenarios for a match
@@ -120,7 +123,7 @@ const resetBoard = () => {
 
 /* Game Function Calls */
 
-showStart();
+resetBoard()
 
 
 
