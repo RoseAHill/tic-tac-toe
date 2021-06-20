@@ -1,8 +1,42 @@
+:root {
+  --bg-white: #EDF2FB;
+  --bg-lavweb-1: #E2EAFC;
+  --bg-lavweb-2: #D7E3FC;
+  --bg-peri: #CCDBFD;
+  --bg-lavblue-1: #C1D3FE;
+  --bg-lavblue-2: #B6CCFE;
+  --bg-babyblue: #ABC4FF;
+  --bg-blue: #0d6efd;
+}
+
+
 body {
   height: 100vh;
+  background: var(--bg-lavweb-2);
+}
+
+#content {
   display: flex;
   flex-direction: column;
   text-align: center;
+  max-width: 40rem;
+  min-width: 22rem;
+  height: 34rem;
+  margin: 10vh auto;
+}
+
+header {
+  padding-top: 2rem;
+}
+
+.score{
+  text-align: center;
+}
+
+#gameplay {
+  display: flex;
+  flex-direction: row;
+  vertical-align: middle;
 }
 
 section#board {
@@ -18,6 +52,7 @@ section#board {
   font-size: 8vmin;
   text-align: center;
   vertical-align: middle;
+
 }
 
 .board-active:hover {
