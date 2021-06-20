@@ -1,7 +1,11 @@
 /* Random Name List */
 
 // Most of these names were pulled from this article: https://www.polygon.com/features/2019/11/27/20974490/greatest-video-game-characters-2019-2010-skyrim-witcher-splatoon
-const nameArray = ["Steve", "Link", "Mario", "Gomez", "Cloud", "Agent 47", "Freddy Fazbear", "Bayonetta", "Dovahkiin", "Lightning", "Zelda", "Batman", "Joker", "The Bloody Baron", "The Squid Sisters", "Catherine De Medici", "Clementine", "Lee", "Delilah Copperspoon", "Dutch Van Der Linde", "Edith Finch", "Elizabeth", "Booker", "Ellie", "Riley", "Elodie", "Emet-Selch", "Florence Yeoh", "Ghost", "Glados", "Goose", "Handsome Jack", "Hannah", "Herschel Biggs", "Isabelle", "Jane Shepard", "Kiryu Kazuma", "Josh", "Junko Enoshima", "Kassandra", "Kratos", "Lara Croft", "Lester Crest", "Lily Bowen", "Lincoln Clay", "Madeline", "Mae Borowski", "Marcus Fenix", "Marcus Holloway", "Max", "Chloe", "Monika", "Nathan Drake", "Owlboy", "Paarthurnax", "Pagan Min", "Parvati Holcomb", "Prince Sidon", "Ratbag the Coward", "Sam Porter Bridges", "Samantha Greenbrair", "Sans Undertale", "Shovel Knight", "Sojiro Sakura", "Spider-Man", "Stanley", "Tracer", "The Traveler", "Venom Snake"]
+const nameArray = ["Ash Ketchum", "Steve", "Link", "Mario", "Pikachu", "Cloud", "Agent 47", "Freddy Fazbear", "Bayonetta", "Dovahkiin", "Sephiroth", "Lightning", "Lightning McQueen", "Zelda", "Batman", "Joker", "The Bloody Baron", "The Squid Sisters", "Catherine De Medici", "Clementine", "Lee", "Delilah Copperspoon", "Dutch Van Der Linde", "Edith Finch", "Elizabeth", "Booker", "Ellie", "Riley", "Elodie", "Emet-Selch", "Florence Yeoh", "Ghost", "Glados", "Goose", "Handsome Jack", "Hannah", "Herschel Biggs", "Isabelle", "Jane Shepard", "Kiryu Kazuma", "Josh", "Junko Enoshima", "Kassandra", "Kratos", "Lara Croft", "Lester Crest", "Lily Bowen", "Lincoln Clay", "Madeline", "Mae Borowski", "Marcus Fenix", "Marcus Holloway", "Max", "Chloe", "Monika", "Nathan Drake", "Owlboy", "Paarthurnax", "Pagan Min", "Parvati Holcomb", "Prince Sidon", "Ratbag the Coward", "Sam Porter Bridges", "Samantha Greenbrair", "Sans Undertale", "Shovel Knight", "Sojiro Sakura", "Spider-Man", "Stanley", "Tracer", "The Traveler", "Venom Snake"]
+
+// Sounds are from https://www.myinstants.com/
+const winSounds = ["omae-wa-mou-shindeirump3.mp3", "nani_mkANQUf.mp3", "you-fool_1.mp3", "roblox-death-sound_1.mp3", "anime-wow-sound-effect.mp3", "movie_1.mp3", "sound-9______.mp3", "order66.mp3", "that_was_easy.mp3", "its-a-very-nice.mp3", "139-item-catch.mp3", "punch.mp3", "yeet.mp3", "ding-sound-effect_1.mp3", "discord-leave_NoJ5lp8.mp3", "12_3.mp3"]
+
 
 /* Element Constants */
 
@@ -40,11 +44,13 @@ let pastWinners = []
 
 let score = [0,0]
 
+let currentAudio = null
+
 /* Sound Effects */
 
-const loose = new Audio('../assets/you-lost.mp3')
-loose.volume = .25
-const win = new Audio('../assets/yay.wav')
+const loose = new Audio('https://www.myinstants.com/media/sounds/to-be-continued-song.mp3')
+loose.volume = .5
+let win = new Audio(`https://www.myinstants.com/media/sounds/${winSounds[Math.floor(Math.random() * winSounds.length)]}`)
 
 /* Game Functions */
 
@@ -89,21 +95,21 @@ const renderMessage = (message = `${playerTurn.name}'s turn`) => {
 // prints out the result depending on if its a tie, then adds the winner to the past winner list
 const endMatch = (isTie) => {
   if(isTie) {
-    renderMessage(`Cat's game, nobody won...`)
+    renderMessage(`To be continued...`)
     pastWinners.push("Tie")
-    loose.play()
+    handleSound(loose)
   } else {
     renderMessage(`${playerTurn.name} won!`)
     pastWinners.push(playerTurn.name)
     trackScore(players.indexOf(playerTurn))
-    win.play()
+    handleSound(win)
+    win = new Audio(`https://www.myinstants.com/media/sounds/${winSounds[Math.floor(Math.random() * winSounds.length)]}`)
   }
   squareEls.forEach(square => {
     square.removeEventListener("click", clickHandler)
   })
   // console.log(pastWinners)
   playerTurn = players[pastWinners.length % 2]
-  showStart(true)
 }
 
 // adds the even listeners to the board
@@ -114,7 +120,6 @@ const init = () => {
   })
 }
 
-// [0,4,8]
 // Checks through the win scenarios for a match
 const testForWin = () => {
   let isWin = false;
@@ -126,6 +131,20 @@ const testForWin = () => {
     }
   })
   return isWin
+}
+
+// Handles end music & showing start button
+const handleSound = (audio) => {
+  audio.volume = .5
+  currentAudio = audio
+  audio.play()
+  if(audio == loose) {
+    window.setTimeout(function() {
+      showStart(true)
+    }, 4000)
+  } else {
+    showStart(true)
+  }
 }
 
 // toggles start game button
@@ -153,6 +172,7 @@ const resetBoard = () => {
   genRandomName()
   init()
   showStart(false)
+  if (currentAudio == loose) loose.volume = 0
 }
 
 // generates a random name

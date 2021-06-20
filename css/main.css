@@ -1,18 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
+
 :root {
-  --bg-white: #EDF2FB;
-  --bg-lavweb-1: #E2EAFC;
-  --bg-lavweb-2: #D7E3FC;
-  --bg-peri: #CCDBFD;
-  --bg-lavblue-1: #C1D3FE;
-  --bg-lavblue-2: #B6CCFE;
-  --bg-babyblue: #ABC4FF;
   --bg-blue: #0d6efd;
 }
 
-
 body {
   height: 100vh;
-  background: var(--bg-lavweb-2);
+  font-family: 'Staatliches', sans-serif;
+  color: white;
+  background-color: black;
+  background-image: url(../assets/vs-bg.png);
+  background-position: center;
 }
 
 #content {
@@ -40,6 +38,7 @@ header {
 }
 
 section#board {
+  background-color: rgba(0, 0, 0, .7);
   margin: 5vh auto;
   display: grid;
   grid-template-rows: repeat(3, 10vmin);
@@ -48,7 +47,7 @@ section#board {
 }
 
 #board>div {
-  border: 3px solid black;
+  border: 3px solid white;
   font-size: 8vmin;
   text-align: center;
   vertical-align: middle;
