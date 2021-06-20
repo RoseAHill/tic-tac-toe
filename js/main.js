@@ -1,5 +1,6 @@
 /* Random Name List */
 
+// Most of these names were pulled from this article: https://www.polygon.com/features/2019/11/27/20974490/greatest-video-game-characters-2019-2010-skyrim-witcher-splatoon
 const nameArray = ["Steve", "Link", "Mario", "Gomez", "Cloud", "Agent 47", "Freddy Fazbear", "Bayonetta", "Dovahkiin", "Lightning", "Zelda", "Batman", "Joker", "The Bloody Baron", "The Squid Sisters", "Catherine De Medici", "Clementine", "Lee", "Delilah Copperspoon", "Dutch Van Der Linde", "Edith Finch", "Elizabeth", "Booker", "Ellie", "Riley", "Elodie", "Emet-Selch", "Florence Yeoh", "Ghost", "Glados", "Goose", "Handsome Jack", "Hannah", "Herschel Biggs", "Isabelle", "Jane Shepard", "Kiryu Kazuma", "Josh", "Junko Enoshima", "Kassandra", "Kratos", "Lara Croft", "Lester Crest", "Lily Bowen", "Lincoln Clay", "Madeline", "Mae Borowski", "Marcus Fenix", "Marcus Holloway", "Max", "Chloe", "Monika", "Nathan Drake", "Owlboy", "Paarthurnax", "Pagan Min", "Parvati Holcomb", "Prince Sidon", "Ratbag the Coward", "Sam Porter Bridges", "Samantha Greenbrair", "Sans Undertale", "Shovel Knight", "Sojiro Sakura", "Spider-Man", "Stanley", "Tracer", "The Traveler", "Venom Snake"]
 
 /* Element Constants */
@@ -7,6 +8,7 @@ const nameArray = ["Steve", "Link", "Mario", "Gomez", "Cloud", "Agent 47", "Fred
 const messageEl = document.querySelector("#message")
 const startEl = document.querySelector("#start")
 const boardParent = document.querySelector("#board")
+const vsNamesEl = document.querySelector("#vs-names")
 
 const boardSquares = document.querySelectorAll('#board>div')
 const squareEls = Array.from(boardSquares)
@@ -81,11 +83,6 @@ const clickHandler = (e) => {
 // TODO: Add next turn sound effect
 const renderMessage = (message = `${playerTurn.name}'s turn`) => {
   messageEl.innerText = message
-}
-
-// renders score on sides of board
-const renderScore = () => {
-
 }
 
 
@@ -168,6 +165,7 @@ const genRandomName = () => {
   while (players[0].name == players[1].name) {
     genRandomName()
   }
+  vsNamesEl.innerText = `${players[0].name} VS ${players[1].name}`
 }
 
 /* Game Function Calls */
