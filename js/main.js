@@ -1,3 +1,7 @@
+/* Random Name List */
+
+const nameArray = ["Steve", "Link", "Mario", "Gomez", "Cloud", "Agent 47", "Freddy Fazbear", "Bayonetta", "Dovahkiin", "Lightning", "Zelda", "Batman", "Joker", "The Bloody Baron", "The Squid Sisters", "Catherine De Medici", "Clementine", "Lee", "Delilah Copperspoon", "Dutch Van Der Linde", "Edith Finch", "Elizabeth", "Booker", "Ellie", "Riley", "Elodie", "Emet-Selch", "Florence Yeoh", "Ghost", "Glados", "Goose", "Handsome Jack", "Hannah", "Herschel Biggs", "Isabelle", "Jane Shepard", "Kiryu Kazuma", "Josh", "Junko Enoshima", "Kassandra", "Kratos", "Lara Croft", "Lester Crest", "Lily Bowen", "Lincoln Clay", "Madeline", "Mae Borowski", "Marcus Fenix", "Marcus Holloway", "Max", "Chloe", "Monika", "Nathan Drake", "Owlboy", "Paarthurnax", "Pagan Min", "Parvati Holcomb", "Prince Sidon", "Ratbag the Coward", "Sam Porter Bridges", "Samantha Greenbrair", "Sans Undertale", "Shovel Knight", "Sojiro Sakura", "Spider-Man", "Stanley", "Tracer", "The Traveler", "Venom Snake"]
+
 /* Element Constants */
 
 const messageEl = document.querySelector("#message")
@@ -6,6 +10,9 @@ const boardParent = document.querySelector("#board")
 
 const boardSquares = document.querySelectorAll('#board>div')
 const squareEls = Array.from(boardSquares)
+
+const p1ScoreEl = document.querySelector('#p1-score')
+const p2ScoreEl = document.querySelector('#p2-score')
 
 /* Game Templates and Constants */
 
@@ -28,6 +35,14 @@ let board = [...boardTemplate]
 let playerTurn = players[0]
 
 let pastWinners = []
+
+let score = [0,0]
+
+/* Sound Effects */
+
+const loose = new Audio('../assets/you-lost.mp3')
+loose.volume = .25
+const win = new Audio('../assets/yay.wav')
 
 /* Game Functions */
 
@@ -68,14 +83,23 @@ const renderMessage = (message = `${playerTurn.name}'s turn`) => {
   messageEl.innerText = message
 }
 
+// renders score on sides of board
+const renderScore = () => {
+
+}
+
+
 // prints out the result depending on if its a tie, then adds the winner to the past winner list
 const endMatch = (isTie) => {
   if(isTie) {
-    renderMessage(`Cat's game, whomp whomp, nobody won...`)
+    renderMessage(`Cat's game, nobody won...`)
     pastWinners.push("Tie")
+    loose.play()
   } else {
     renderMessage(`${playerTurn.name} won!`)
     pastWinners.push(playerTurn.name)
+    trackScore(players.indexOf(playerTurn))
+    win.play()
   }
   squareEls.forEach(square => {
     square.removeEventListener("click", clickHandler)
@@ -93,6 +117,7 @@ const init = () => {
   })
 }
 
+// [0,4,8]
 // Checks through the win scenarios for a match
 const testForWin = () => {
   let isWin = false;
@@ -106,19 +131,43 @@ const testForWin = () => {
   return isWin
 }
 
+// toggles start game button
 const showStart = (toShow) => {
   if (toShow) {
-    startEl.removeAttribute("hidden")
+    startEl.removeAttribute("disabled")
     startEl.addEventListener("click", resetBoard)
   } else {
-    startEl.setAttribute("hidden", true)
+    startEl.setAttribute("disabled", "")
     startEl.removeEventListener("click", resetBoard)
   }
 }
 
+// updates and renders the score count
+const trackScore = (whichPlayer) => {
+  score[whichPlayer]++
+  console.log(score)
+  p1ScoreEl.innerText = `${players[0].symbol}'s\n${Object.values(score)[0]}`
+  p2ScoreEl.innerText = `${players[1].symbol}'s\n${Object.values(score)[1]}`
+}
+
+// clears the board and starts teh game over
 const resetBoard = () => {
   clearBoard()
+  genRandomName()
   init()
+  showStart(false)
+}
+
+// generates a random name
+
+const genRandomName = () => {
+  players.forEach(player => {
+    player.name = nameArray[Math.floor(Math.random()*nameArray.length)]
+    console.log(player.name)
+  })
+  while (players[0].name == players[1].name) {
+    genRandomName()
+  }
 }
 
 /* Game Function Calls */
