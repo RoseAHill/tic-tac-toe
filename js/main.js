@@ -128,6 +128,7 @@ const testForWin = () => {
       board[scenario[1]] === playerTurn.symbol &&
       board[scenario[2]] === playerTurn.symbol) {
         isWin = true
+        confetti.start(4000)
     }
   })
   return isWin
